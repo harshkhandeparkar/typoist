@@ -32,6 +32,7 @@ export class Typoist {
   appendFunction: (character: string) => void;
   deleteFunction: () => void;
   settings: ITypoistSettings;
+  manipulatorTimeOut: NodeJS.Timeout;
   manipulateQueue: {
     operation: 'delete' | 'append',
     character?: string
@@ -81,9 +82,10 @@ export class Typoist {
       if (manipulation.operation === 'delete') this.deleteFunction();
       else if (manipulation.operation === 'append') this.appendFunction(manipulation.character);
     }
+    else this.pasteFunc();
 
-    this.pasteFunc();
-    setTimeout(this.manipulatorLoop, this.typingDelay * Math.random());
+    if (this.currentTypingLocation >= this.stringToType.length && this.manipulateQueue.length === 0) this.stopTyping();
+    else this.manipulatorTimeOut = setTimeout(this.manipulatorLoop, this.typingDelay * Math.random());
   }
 
   /**
@@ -95,11 +97,16 @@ export class Typoist {
   }
 
   startTyping() {
-    this.isTyping = true;
-    this.manipulatorLoop();
+    if (!this.isTyping) {
+      this.isTyping = true;
+      this.manipulatorLoop();
+    }
   }
 
   stopTyping() {
-    this.isTyping = false;
+    if (this.isTyping) {
+      this.isTyping = false;
+      clearTimeout(this.manipulatorTimeOut);
+    }
   }
 }
