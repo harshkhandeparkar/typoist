@@ -1,4 +1,3 @@
-const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
 const { terser } = require('rollup-plugin-terser');
 
@@ -12,7 +11,6 @@ module.exports = [
       format: 'umd'
     },
     plugins: [
-      nodeResolve(),
       commonjs()
     ]
   },
@@ -25,7 +23,6 @@ module.exports = [
       format: 'umd'
     },
     plugins: [
-      nodeResolve(),
       commonjs(),
       terser()
     ]
