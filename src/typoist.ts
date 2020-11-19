@@ -23,6 +23,7 @@ export const TypoistDefaults: ITypoistSettings = {
 
 export class Typoist {
   currentTypingLocation: number = 0;
+  isTyping: boolean = false;
   stringToType: string;
   speed: number; // Characters per second
   typingDelay: number; // Maximum delay between each character typed, in ms
@@ -47,7 +48,7 @@ export class Typoist {
   }
 
   pasteFunc = () => {
-    if (this.currentTypingLocation < this.stringToType.length) {
+    if (this.currentTypingLocation < this.stringToType.length && this.isTyping) {
       if (Math.random() >= 1 - this.mistakeProbability) {
         const backspaceLen = Math.random() * this.mistakeLength;
 
@@ -86,6 +87,11 @@ export class Typoist {
   }
 
   startTyping() {
+    this.isTyping = true;
     this.pasteFunc();
+  }
+
+  stopTyping() {
+    this.isTyping = false;
   }
 }
