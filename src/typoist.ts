@@ -32,6 +32,10 @@ export class Typoist {
   appendFunction: (character: string) => void;
   deleteFunction: () => void;
   settings: ITypoistSettings;
+  manipulateQueue: {
+    operation: 'delete' | 'append',
+    character?: string
+  }[] = [];
 
   constructor(settings: ITypoistSettings) {
     this.settings = {
@@ -53,29 +57,33 @@ export class Typoist {
         const backspaceLen = Math.random() * this.mistakeLength;
 
         for (let j = 1; j <= backspaceLen; j++) {
-          setTimeout(
-            () => {
-              this.appendFunction(generateRandomCharacter());
-            }, j * this.typingDelay * Math.random()
-          )
+          this.manipulateQueue.push({
+            operation: 'append',
+            character: generateRandomCharacter()
+          })
         }
 
-        for (let j = backspaceLen; j >= 1; j--) {
-          setTimeout(
-            () => {
-              this.deleteFunction();
-            }, (j + backspaceLen) * this.typingDelay * Math.random()
-          )
-        }
-
-        setTimeout(this.pasteFunc, this.typingDelay * (2 * backspaceLen + 1));
+        for (let j = backspaceLen; j >= 1; j--) this.manipulateQueue.push({ operation: 'delete' });
       }
       else {
-        this.appendFunction(this.stringToType[this.currentTypingLocation++]);
-
-        setTimeout(this.pasteFunc, this.typingDelay * Math.random());
+        this.manipulateQueue.push({
+          operation: 'append',
+          character: this.stringToType[this.currentTypingLocation++]
+        })
       }
     }
+  }
+
+  manipulatorLoop = () => {
+    if (this.isTyping && this.manipulateQueue.length > 0) {
+      const manipulation = this.manipulateQueue.shift();
+
+      if (manipulation.operation === 'delete') this.deleteFunction();
+      else if (manipulation.operation === 'append') this.appendFunction(manipulation.character);
+    }
+
+    this.pasteFunc();
+    setTimeout(this.manipulatorLoop, this.typingDelay * Math.random());
   }
 
   /**
@@ -88,7 +96,7 @@ export class Typoist {
 
   startTyping() {
     this.isTyping = true;
-    this.pasteFunc();
+    this.manipulatorLoop();
   }
 
   stopTyping() {
