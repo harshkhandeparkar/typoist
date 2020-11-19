@@ -14,7 +14,7 @@ export interface ITypoistSettings {
 }
 
 export const TypoistDefaults: ITypoistSettings = {
-  speed: 0,
+  speed: 10,
   mistakeProbability: 0.1,
   mistakeLength: 3,
   appendFunction: (char: string) => {},
@@ -38,19 +38,23 @@ export class Typoist {
       ...settings
     }
 
+    this.speed = this.settings.speed;
     this.typingDelay = 1000 / this.speed;
+    this.mistakeProbability = this.settings.mistakeProbability;
+    this.mistakeLength = this.settings.mistakeLength;
+    this.appendFunction = this.settings.appendFunction;
+    this.deleteFunction = this.settings.deleteFunction;
   }
 
   pasteFunc = () => {
     if (this.currentTypingLocation < this.stringToType.length) {
-      if (Math.random() >= 1 - this.mistakeProbability && this.currentTypingLocation >= 20) {
+      if (Math.random() >= 1 - this.mistakeProbability) {
         const backspaceLen = Math.random() * this.mistakeLength;
 
         for (let j = 1; j <= backspaceLen; j++) {
           setTimeout(
             () => {
               this.appendFunction(generateRandomCharacter());
-              this.currentTypingLocation++;
             }, j * this.typingDelay * Math.random()
           )
         }
