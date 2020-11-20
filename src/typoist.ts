@@ -8,9 +8,11 @@ export interface ITypoistSettings {
   /** The maximum number of wrong characters typed during a mistake. */
   mistakeLength?: number;
   /** A function that is fired each time a character is to be appended to the output. */
-  appendFunction?: (character: string) => void;
+  appendFunction: (character: string) => void;
   /** A function that is fired each time the last character in the final output is to be removed. */
-  deleteFunction?: () => void;
+  deleteFunction: () => void;
+  /** A callback that is fired when typing is complete. */
+  onComplete?: () => void
 }
 
 export const TypoistDefaults: ITypoistSettings = {
@@ -31,6 +33,7 @@ export class Typoist {
   mistakeLength: number;
   appendFunction: (character: string) => void;
   deleteFunction: () => void;
+  onComplete: () => void;
   settings: ITypoistSettings;
   manipulatorTimeOut: NodeJS.Timeout;
   manipulateQueue: {
@@ -50,6 +53,7 @@ export class Typoist {
     this.mistakeLength = this.settings.mistakeLength;
     this.appendFunction = this.settings.appendFunction;
     this.deleteFunction = this.settings.deleteFunction;
+    this.onComplete = this.onComplete;
   }
 
   pasteFunc = () => {
@@ -84,7 +88,10 @@ export class Typoist {
     }
     else this.pasteFunc();
 
-    if (this.currentTypingLocation >= this.stringToType.length && this.manipulateQueue.length === 0) this.stopTyping();
+    if (this.currentTypingLocation >= this.stringToType.length && this.manipulateQueue.length === 0) {
+      this.stopTyping();
+      if (this.onComplete) this.onComplete();
+    }
     else this.manipulatorTimeOut = setTimeout(this.manipulatorLoop, this.typingDelay * Math.random());
   }
 
