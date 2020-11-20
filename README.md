@@ -1,5 +1,5 @@
 ### Typoist
-A fun program that can be used to fake fast typing or create typing timelapses.
+A fun library that can be used to fake fast typing or create typing time-lapses.
 
 <p align="center">
   <img src="typoist.gif" />
