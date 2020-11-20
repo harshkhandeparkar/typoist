@@ -28,7 +28,7 @@ Get the dist files from the [releases page](https://github.com/HarshKhandeparkar
 All the exported members will be available under a global variable `Typoist`, eg: `Typoist.Typoist`. See the [API Docs](#api).
 
 ### Examples
-1. [Browser Example](https://harshkhandeparkar.github.io/typoist) and its [code](examples/web).
+1. [Browser Example](https://harshkhandeparkar.github.io/typoist).
 2. [Node.js CLI Example](example/cli-typoist): Clone this repo and use locally.
 
 ### API
@@ -36,18 +36,20 @@ Typoist exports the following:
 
 1. `Typoist` (class): The main class having the following properties.
   - `constructor(settings)`: Where settings is an object with the following properties:
-    ```js
+    ```ts
     {
       /** The maximum typing speed in characters per second. */
-      speed?: number; // Default: 10
+      speed?: number, // Default: 10
       /** Probability of making a mistake. */
-      mistakeProbability?: number; // Default: 0.1
+      mistakeProbability?: number, // Default: 0.1
       /** The maximum number of wrong characters typed during a mistake. */
-      mistakeLength?: number; // Default: 3
+      mistakeLength?: number, // Default: 3
       /** A function that is fired each time a character is to be appended to the output. */
-      appendFunction?: (character: string) => void; // Default () => {}
+      appendFunction: (character: string) => void, // No default
       /** A function that is fired each time the last character in the final output is to be removed. */
-      deleteFunction?: () => void; // Default: () => {}
+      deleteFunction: () => void, // No default
+      /** A callback that is fired when typing is complete. */
+      onComplete?: () => void // No default
     }
     ```
 
