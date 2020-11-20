@@ -1,12 +1,13 @@
-const textArea = document.querySelector('p');
-const exampleText = 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officiis aspernatur voluptatibus laborum saepe, magnam magni commodi! Perferendis, mollitia velit commodi quod sint illo rem alias. Nostrum nam porro necessitatibus corporis.';
+const textArea = document.querySelector('#type-box');
+const exampleText = document.querySelector('#example-lorem').innerHTML;
 
 const typoist = new Typoist.Typoist({
+  speed: 15,
   appendFunction: (character) => {
-    textArea.innerHTML = textArea.innerHTML.slice(0, -1) + character + '|';
+    textArea.innerHTML += character;
   },
   deleteFunction: () => {
-    textArea.innerText = textArea.innerText.slice(0, -2) + '|';
+    textArea.innerText = textArea.innerText.slice(0, -1)
   }
 })
 

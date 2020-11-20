@@ -1,0 +1,41 @@
+body{
+  padding: 40px;
+  background-color: #121212;
+}
+
+/** Credit: https://www.codesdope.com/blog/article/12-creative-css-and-javascript-text-typing-animati/
+  * Adapted
+  */
+
+#type-box {
+  font-size: 28px;
+  color: rgba(255, 255, 255, 0.70);
+  overflow: hidden;
+}
+
+#type-box::after {
+  content: "g";
+  border-left: 3px solid;
+  animation: blink 0.7s infinite;
+  color: transparent;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0% {
+    border-left-color: transparent;
+  }
+
+  50% {
+    border-left-color: rgba(0, 255, 0, 0.75);
+  }
+
+  100% {
+    border-left-color: transparent;
+  }
+}
+
+
+#example-lorem {
+  display: none;
+}
