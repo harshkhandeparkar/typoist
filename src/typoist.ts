@@ -94,6 +94,8 @@ export class Typoist {
    */
   setStringToType(stringToType: string) {
     this.stringToType = stringToType;
+
+    return this;
   }
 
   startTyping() {
@@ -101,6 +103,8 @@ export class Typoist {
       this.isTyping = true;
       this.manipulatorLoop();
     }
+
+    return this;
   }
 
   stopTyping() {
@@ -108,5 +112,7 @@ export class Typoist {
       this.isTyping = false;
       clearTimeout(this.manipulatorTimeOut);
     }
+
+    return this;
   }
 }
