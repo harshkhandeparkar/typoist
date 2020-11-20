@@ -1,6 +1,6 @@
 {
   "name": "typoist",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A fun program that can be used to fake fast typing or create typing timelapses.",
   "main": "build/index.js",
   "typings": "build/index.d.ts",
