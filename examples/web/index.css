@@ -7,13 +7,13 @@ body{
   * Adapted
   */
 
-#type-box {
+.type-box {
   font-size: 28px;
   color: rgba(255, 255, 255, 0.70);
   overflow: hidden;
 }
 
-#type-box::after {
+.type-box::after {
   content: "g";
   border-left: 3px solid;
   animation: blink 0.7s infinite;
@@ -35,7 +35,16 @@ body{
   }
 }
 
+#title {
+  text-align: center;
+}
 
-#example-lorem {
-  display: none;
+p {
+  text-align: justify;
+  margin-left: 10rem;
+}
+
+#desc {
+  text-align: center;
+  margin-left: 0;
 }
