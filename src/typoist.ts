@@ -53,7 +53,7 @@ export class Typoist {
     this.mistakeLength = this.settings.mistakeLength;
     this.appendFunction = this.settings.appendFunction;
     this.deleteFunction = this.settings.deleteFunction;
-    this.onComplete = this.onComplete;
+    this.onComplete = this.settings.onComplete;
   }
 
   pasteFunc = () => {
