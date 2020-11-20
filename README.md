@@ -28,7 +28,7 @@ Get the dist files from the [releases page](https://github.com/HarshKhandeparkar
 All the exported members will be available under a global variable `Typoist`, eg: `Typoist.Typoist`. See the [API Docs](#api).
 
 ### Examples
-1. [Browser Example](https://harshkhandeparkar.github.io/typoist).
+1. [Browser Example](https://harshkhandeparkar.github.io/typoist). See the code in the `gh-pages` branch.
 2. [Node.js CLI Example](example/cli-typoist): Clone this repo and use locally.
 
 ### API
