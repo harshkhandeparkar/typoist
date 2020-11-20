@@ -6,7 +6,7 @@
   "typings": "build/index.d.ts",
   "scripts": {
     "build": "tsc && rollup -c",
-    "npm-publish": "yarn build && git add dist && yarn publish"
+    "npm-publish": "yarn build && yarn publish"
   },
   "repository": {
     "type": "git",
