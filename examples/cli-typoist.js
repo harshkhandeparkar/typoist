@@ -14,12 +14,10 @@ if (!fs.existsSync(output)) {
 
 const speed = questionInt(`Enter typing speed in characters per second: `);
 const mistakeProbability = questionFloat(`Enter mistake making probability: `);
-const mistakeLength = questionInt(`Enter maximum length of typo: `);
 
 const typoist = new Typoist({
   speed,
   mistakeProbability,
-  mistakeLength,
   appendFunction: (character) => fs.appendFileSync(output, character),
   deleteFunction: () => fs.writeFileSync(output, fs.readFileSync(output).toString().slice(0, -1))
 })

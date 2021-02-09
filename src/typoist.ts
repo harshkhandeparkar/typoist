@@ -5,8 +5,6 @@ export interface ITypoistSettings {
   speed?: number;
   /** Probability of making a mistake. */
   mistakeProbability?: number;
-  /** The maximum number of wrong characters typed during a mistake. */
-  mistakeLength?: number;
   /** A function that is fired each time a character is to be appended to the output. */
   appendFunction: (character: string) => void;
   /** A function that is fired each time the last character in the final output is to be removed. */
@@ -18,7 +16,6 @@ export interface ITypoistSettings {
 export const TypoistDefaults: ITypoistSettings = {
   speed: 10,
   mistakeProbability: 0.1,
-  mistakeLength: 3,
   appendFunction: (char: string) => {},
   deleteFunction: () => {}
 }
@@ -30,7 +27,6 @@ export class Typoist {
   speed: number; // Characters per second
   typingDelay: number; // Maximum delay between each character typed, in ms
   mistakeProbability: number;
-  mistakeLength: number;
   appendFunction: (character: string) => void;
   deleteFunction: () => void;
   onComplete: () => void;
@@ -50,7 +46,6 @@ export class Typoist {
     this.speed = this.settings.speed;
     this.typingDelay = 1000 / this.speed;
     this.mistakeProbability = this.settings.mistakeProbability;
-    this.mistakeLength = this.settings.mistakeLength;
     this.appendFunction = this.settings.appendFunction;
     this.deleteFunction = this.settings.deleteFunction;
     this.onComplete = this.settings.onComplete;
@@ -59,16 +54,12 @@ export class Typoist {
   pasteFunc = () => {
     if (this.currentTypingLocation < this.stringToType.length && this.isTyping) {
       if (Math.random() >= 1 - this.mistakeProbability) {
-        const backspaceLen = Math.random() * this.mistakeLength;
+        this.manipulateQueue.push({
+          operation: 'append',
+          character: generateRandomCharacter(this.stringToType[this.currentTypingLocation])
+        })
 
-        for (let j = 1; j <= backspaceLen; j++) {
-          this.manipulateQueue.push({
-            operation: 'append',
-            character: generateRandomCharacter()
-          })
-        }
-
-        for (let j = backspaceLen; j >= 1; j--) this.manipulateQueue.push({ operation: 'delete' });
+        this.manipulateQueue.push({ operation: 'delete' });
       }
       else {
         this.manipulateQueue.push({
