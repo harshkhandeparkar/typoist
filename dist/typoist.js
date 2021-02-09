@@ -27,12 +27,38 @@
 	var randomCharacter = createCommonjsModule(function (module, exports) {
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.generateRandomCharacter = void 0;
-	// Thank you stack overflow users!  ↓↓
-	exports.generateRandomCharacter = function () {
-	    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/\\'\"-_+={}()|`*-?[]<>!%$#@&^:;,. ";
-	    return characters[Math.min(characters.length - 1, Math.floor(Math.random() * (characters.length + 1)))];
+	var QWERTYkeyboardRows = [
+	    [['`', '~'], ['1', '!'], ['2', '@'], ['3', '#'], ['4', '$'], ['5', '%'], ['6', '^'], ['7', '&'], ['8', '*'], ['9', '('], ['0', ')'], ['-', '_'], ['=', '+']],
+	    [['\t', '\t'], ['q', 'Q'], ['w', 'W'], ['e', 'E'], ['r', 'R'], ['t', 'T'], ['y', 'Y'], ['u', 'U'], ['i', 'I'], ['o', 'O'], ['p', 'P'], ['[', '{'], [']', '}'], ['\\', '|']],
+	    [['a', 'A'], ['s', 'S'], ['d', 'D'], ['f', 'F'], ['g', 'G'], ['h', 'H'], ['j', 'J'], ['k', 'K'], ['l', 'L'], [';', ':'], ['\'', '"'], ['\n', '\n']],
+	    [['z', 'Z'], ['x', 'X'], ['c', 'C'], ['v', 'V'], ['b', 'B'], ['n', 'N'], ['m', 'M'], [',', '<'], ['.', '>'], ['/', '?']],
+	    [['', '']], [[' ', ' ']], [[' ', ' ']], [[' ', ' ']], [[' ', ' ']], [[' ', ' ']], [[' ', ' ']]
+	];
+	exports.generateRandomCharacter = function (inputCharacter) {
+	    for (var row = 0; row < QWERTYkeyboardRows.length; row++) {
+	        for (var col = 0; col < QWERTYkeyboardRows[row].length; col++) {
+	            for (var shift = 0; shift < 2; shift++) {
+	                if (QWERTYkeyboardRows[row][col][shift] === inputCharacter) {
+	                    var newRow = row, newCol = col;
+	                    var rowRandomSeed = Math.random();
+	                    var colRandomSeed = Math.random();
+	                    if (rowRandomSeed <= 1 / 3)
+	                        newRow++;
+	                    else if (rowRandomSeed >= 2 / 3)
+	                        newRow--;
+	                    if (colRandomSeed <= 1 / 3)
+	                        newCol++;
+	                    else if (colRandomSeed >= 2 / 3)
+	                        newCol--;
+	                    newRow = Math.max(0, Math.min(newRow, QWERTYkeyboardRows.length - 1));
+	                    newCol = Math.max(0, Math.min(newCol, QWERTYkeyboardRows[newRow].length - 1));
+	                    return QWERTYkeyboardRows[newRow][newCol][shift];
+	                }
+	            }
+	        }
+	    }
+	    return inputCharacter;
 	};
-	// Thank you stack overflow users!  ↑↑
 	});
 
 	var typoist = createCommonjsModule(function (module, exports) {
@@ -53,7 +79,6 @@
 	exports.TypoistDefaults = {
 	    speed: 10,
 	    mistakeProbability: 0.1,
-	    mistakeLength: 3,
 	    appendFunction: function (char) { },
 	    deleteFunction: function () { }
 	};
@@ -66,15 +91,11 @@
 	        this.pasteFunc = function () {
 	            if (_this.currentTypingLocation < _this.stringToType.length && _this.isTyping) {
 	                if (Math.random() >= 1 - _this.mistakeProbability) {
-	                    var backspaceLen = Math.random() * _this.mistakeLength;
-	                    for (var j = 1; j <= backspaceLen; j++) {
-	                        _this.manipulateQueue.push({
-	                            operation: 'append',
-	                            character: randomCharacter.generateRandomCharacter()
-	                        });
-	                    }
-	                    for (var j = backspaceLen; j >= 1; j--)
-	                        _this.manipulateQueue.push({ operation: 'delete' });
+	                    _this.manipulateQueue.push({
+	                        operation: 'append',
+	                        character: randomCharacter.generateRandomCharacter(_this.stringToType[_this.currentTypingLocation])
+	                    });
+	                    _this.manipulateQueue.push({ operation: 'delete' });
 	                }
 	                else {
 	                    _this.manipulateQueue.push({
@@ -106,7 +127,6 @@
 	        this.speed = this.settings.speed;
 	        this.typingDelay = 1000 / this.speed;
 	        this.mistakeProbability = this.settings.mistakeProbability;
-	        this.mistakeLength = this.settings.mistakeLength;
 	        this.appendFunction = this.settings.appendFunction;
 	        this.deleteFunction = this.settings.deleteFunction;
 	        this.onComplete = this.settings.onComplete;
