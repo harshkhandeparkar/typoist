@@ -29,6 +29,5 @@ const typeDesc = () => {
 typeIt('#title', 'Typoist', {
   speed: 8,
   mistakeProbability: 0.3,
-  mistakeLength: 2,
   onComplete: typeDesc
 })
