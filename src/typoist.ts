@@ -17,7 +17,8 @@ export const TypoistDefaults: ITypoistSettings = {
   speed: 10,
   mistakeProbability: 0.1,
   appendFunction: async (char: string) => {},
-  deleteFunction: async () => {}
+  deleteFunction: async () => {},
+  onComplete: () => {}
 }
 
 export class Typoist {
@@ -49,7 +50,7 @@ export class Typoist {
   type(string: string) {
     if (!this.isTyping) {
       this.stringToType = string;
-      this.typedIndex = 0;
+      this.typedIndex = -1;
       this.startTyping();
     }
   }
