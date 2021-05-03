@@ -8,7 +8,7 @@ const typeIt = (selector, text, options) => {
       resolve();
     }),
     deleteFunction: () => new Promise((resolve) => {
-      textArea.innerText = textArea.innerText.slice(0, textArea.innerText.length - 1);
+      textArea.innerText = textArea.innerText.slice(0, -1);
       resolve();
     })
   })
