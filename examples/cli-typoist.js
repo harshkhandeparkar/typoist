@@ -1,6 +1,6 @@
 const { question, questionInt, questionFloat } = require('readline-sync');
 const fs = require('fs');
-const { Typoist, TypoistDefaults } = require('../build/typoist');
+const { Typoist } = require('../build/typoist');
 
 const input = question('Enter the input file path: ');
 if (!fs.existsSync(input)) {
@@ -18,8 +18,8 @@ const mistakeProbability = questionFloat(`Enter mistake making probability: `);
 const typoist = new Typoist({
   speed,
   mistakeProbability,
-  appendFunction: (character) => fs.appendFileSync(output, character),
-  deleteFunction: () => fs.writeFileSync(output, fs.readFileSync(output).toString().slice(0, -1))
+  appendFunction: (character) => new Promise((then) => fs.appendFile(output, character, then)),
+  deleteFunction: () => new Promise((then) => fs.writeFile(output, fs.readFileSync(output).toString().slice(0, -1), then))
 })
 
-typoist.setStringToType(fs.readFileSync(input).toString()).startTyping();
+typoist.type(fs.readFileSync(input).toString());

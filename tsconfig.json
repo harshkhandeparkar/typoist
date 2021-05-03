@@ -7,7 +7,6 @@
     "declaration": true
   },
   "include": [
-    "src/typoist.ts",
-    "src/"
+    "src/typoist.ts"
   ]
 }

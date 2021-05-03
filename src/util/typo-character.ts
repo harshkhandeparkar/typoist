@@ -6,7 +6,7 @@ const QWERTYkeyboardRows: [string, string][][] = [
   [['', '']], [[' ', ' ']], [[' ', ' ']], [[' ', ' ']], [[' ', ' ']], [[' ', ' ']], [[' ', ' ']]
 ]
 
-export const generateRandomCharacter = (inputCharacter) => {
+export const generateTypoCharacter = (inputCharacter) => {
   for (let row = 0; row < QWERTYkeyboardRows.length; row++) {
     for (let col = 0; col < QWERTYkeyboardRows[row].length; col++) {
       for (let shift = 0; shift < 2; shift++) {
