@@ -43,15 +43,15 @@ Typoist exports the following:
       /** Probability of making a mistake. */
       mistakeProbability?: number, // Default: 0.1
       /** A function that is fired each time a character is to be appended to the output. */
-      appendFunction: (character: string) => void, // No default
+      appendFunction: (character: string) => Promise<void>, // No default
       /** A function that is fired each time the last character in the final output is to be removed. */
-      deleteFunction: () => void, // No default
+      deleteFunction: () => Promise<void>, // No default
       /** A callback that is fired when typing is complete. */
-      onComplete?: () => void // No default
+      onComplete?: () => void // Default: () => {}
     }
     ```
 
-  - `setStringToType(string)`: This method is used to set the typing string. (and to change it later)
+  - `type(string)`: Start typing a particular string.
   - `startTyping()`: Start typing.
   - `stopTyping()`: Stop typing.
 
@@ -68,10 +68,13 @@ const outputString = '';
 const typoist = new Typoist({
   speed: 2,
   mistakeProbability: 0.2,
-  appendFunction: (character) => outputString = outputString + character, // Add a character to the end
-  deleteFunction: () => outputString = outputString.slice(0, -1) // Remove a character from the end
+  appendFunction: (character) => new Promise((resolve) => {
+    outputString = outputString + character; // Add a character to the end
+    resolve();
+  }),
+  deleteFunction: () => new Promise((resolve) => {
+    outputString = outputString.slice(0, -1) // Remove a character from the end
+    resolve();
+  })
 })
 ```
-
-#### Thank You!
-> Open Source by Harsh Khandeparkar
