@@ -64,19 +64,19 @@ export class Typoist {
           // mistake
           await this.appendFunction(generateTypoCharacter(this.stringToType[this.typedIndex + 1]));
 
-          this.afterRandomDelay(async () => {
-            await this.deleteFunction();
-            this.afterRandomDelay(async () => await this.typeLoop());
-          })
+          await this.waitRandomDelay();
+
+          await this.deleteFunction();
+          await this.waitRandomDelay();
+          await this.typeLoop();
         }
         else {
           // normal type
           this.typedIndex++;
           await this.appendFunction(this.stringToType[this.typedIndex]);
 
-          this.afterRandomDelay(async () => {
-            await this.typeLoop();
-          })
+          this.waitRandomDelay();
+          await this.typeLoop();
         }
       }
       else {
@@ -87,8 +87,10 @@ export class Typoist {
     }
   }
 
-  async afterRandomDelay(cb: Function) {
-    setTimeout(cb, this.typingDelay * Math.random());
+  async waitRandomDelay() {
+    return new Promise((resolve) => {
+      setTimeout(resolve, this.typingDelay * Math.random());
+    })
   }
 
   startTyping() {
