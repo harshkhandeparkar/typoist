@@ -1,4 +1,5 @@
 body{
+  min-height: 100vh;
   padding: 40px;
   background-color: #121212;
 }
@@ -41,10 +42,20 @@ body{
 
 p {
   text-align: justify;
-  margin-left: 10rem;
+  margin-left: 20rem;
 }
 
 #desc {
   text-align: center;
   margin-left: 0;
+}
+
+
+#links {
+  text-align: center;
+  font-size: 2rem;
+}
+
+#links a {
+  color: rgba(0, 255, 0, 0.75);
 }
