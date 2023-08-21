@@ -75,7 +75,7 @@ export class Typoist {
           this.typedIndex++;
           await this.appendFunction(this.stringToType[this.typedIndex]);
 
-          this.waitRandomDelay();
+          await this.waitRandomDelay();
           await this.typeLoop();
         }
       }
