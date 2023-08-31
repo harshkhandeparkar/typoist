@@ -3,14 +3,8 @@ const typeIt = (selector, text, options) => {
 
   const typoist = new Typoist.Typoist({
     ...options,
-    appendFunction: (character) => new Promise((resolve) => {
-      textArea.innerText += character;
-      resolve();
-    }),
-    deleteFunction: () => new Promise((resolve) => {
-      textArea.innerText = textArea.innerText.slice(0, -1);
-      resolve();
-    })
+    appendFunction: async (character) => textArea.innerText += character,
+    deleteFunction: async () => textArea.innerText = textArea.innerText.slice(0, -1)
   })
 
   typoist.type(text);
